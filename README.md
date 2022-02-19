@@ -18,8 +18,9 @@ PISCO is a micro-CRM system (_still in early stages_) for personal, freelance an
 4. `$ cp .env.example .env`
 5. `$ php artisan key:generate`
 6. `$ php artisan storage:link`
-7. `$ php artisan serve`
-8. Login with :
+7. `$ php artisan migrate --seed`
+8. `$ php artisan serve`
+9. Login with :
     - email : `admin@admin.com`
     - password : `password`
 

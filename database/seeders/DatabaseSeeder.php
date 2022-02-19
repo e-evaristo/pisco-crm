@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Storage::deleteDirectory('logos');
-        Storage::makeDirectory('logos');
+        Storage::deleteDirectory('public/logos');
+        Storage::makeDirectory('public/logos');
         
         $this->call(UserSeeder::class);
         Company::factory(26)->create();

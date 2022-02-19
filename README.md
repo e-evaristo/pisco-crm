@@ -18,9 +18,11 @@ PISCO is a micro-CRM system (_still in early stages_) for personal, freelance an
 4. `$ cp .env.example .env`
 5. `$ php artisan key:generate`
 6. `$ php artisan storage:link`
-7. `$ php artisan migrate --seed`
-8. `$ php artisan serve`
-9. Login with :
+7. `$ touch database/database.sqlite`
+8. `$ php artisan migrate --seed`
+9. `$ php artisan serve`
+10. Access: http://127.0.0.1:8000/admin
+10. Login with :
     - email : `admin@admin.com`
     - password : `password`
 
@@ -31,4 +33,4 @@ PISCO is a micro-CRM system (_still in early stages_) for personal, freelance an
 
 ### License
 
-The Pico CRM is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Pisco CRM is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

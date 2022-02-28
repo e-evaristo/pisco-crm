@@ -8,6 +8,7 @@ use App\Models\Company;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
@@ -23,14 +24,19 @@ class CompanyResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
+        return $form->schema([
+            
+            Card::make()->schema([
                 TextInput::make('name')->required()->maxLength(100)->autofocus(),
                 TextInput::make('email')->email()->required()->unique(ignorable: fn (?Company $record): ?Company => $record)->maxLength(250),
                 TextInput::make('website')->prefix('https://')->maxLength(250),
                 TextInput::make('address')->maxLength(250),
                 FileUpload::make('logo')->image()->directory('logos')
-            ]);
+            ])->columns([
+                'sm' => 2,
+            ]),
+            
+         ]);
     }
 
     public static function table(Table $table): Table

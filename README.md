@@ -12,17 +12,18 @@ PISCO is a micro-CRM system (_still in early stages_) for personal, freelance an
 
 ### How to Install
 
-1. Clone the repo : `git clone https://github.com/e-evaristo/pisco-crm.git`
-2. `$ cd pisco-crm`
-3. `$ composer install`
-4. `$ cp .env.example .env`
-5. `$ php artisan key:generate`
-6. `$ php artisan storage:link`
-7. `$ touch database/database.sqlite`
-8. `$ php artisan migrate --seed`
-9. `$ php artisan serve`
-10. Access: http://127.0.0.1:8000/admin
-10. Login with :
+01. Clone the repo : `git clone https://github.com/e-evaristo/pisco-crm.git`
+02. `$ cd pisco-crm`
+03. `$ composer install`
+04. `$ cp .env.example .env`
+05. `$ php artisan key:generate`
+06. `$ php artisan storage:link`
+07. Create new MySQL database for this application
+08. Set database credentials on .env file
+09. `$ php artisan migrate --seed`
+10. `$ php artisan serve`
+11. Access: http://127.0.0.1:8000/admin
+12. Login with :
     - email : `admin@admin.com`
     - password : `password`
 
@@ -30,6 +31,7 @@ PISCO is a micro-CRM system (_still in early stages_) for personal, freelance an
 ![Login](screenshots/screen-1.png)
 ![Companies List](screenshots/screen-2.png)
 ![Employees List](screenshots/screen-3.png)
+![Edit Transaction](screenshots/screen-4.png)
 
 ### License
 

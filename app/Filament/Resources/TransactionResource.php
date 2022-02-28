@@ -51,7 +51,7 @@ class TransactionResource extends Resource
                 Forms\Components\HasManyRepeater::make('items')->relationship('items')->schema([
                     
                     Forms\Components\Select::make('product_id')->label('Product')
-                        ->options(Product::query()->pluck('name', 'id'))->required()->reactive()
+                        ->options(Product::query()->where('is_visible',true)->pluck('name', 'id'))->required()->reactive()
                         ->afterStateUpdated( function ($state, callable $set) {
                             $set('value', Product::find($state)->price ?? 0);
                             $set('quantity', 1);

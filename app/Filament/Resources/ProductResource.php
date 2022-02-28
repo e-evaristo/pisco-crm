@@ -10,6 +10,9 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\MultiSelectFilter;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 
@@ -61,14 +64,6 @@ class ProductResource extends Resource
                     ])
                 ])
         ]);
-
-        /* Forms\Components\Group::make()->schema([
-            Card::make()->schema([
-                Forms\Components\BelongsToManyMultiSelect::make('categories')
-                ->relationship('categories', 'name')
-                ->required(), 
-            ]),
-        ])->columns(1), */
     }
 
     public static function table(Table $table): Table
@@ -91,7 +86,25 @@ class ProductResource extends Resource
                     ->sortable(),                    
             ])
             ->filters([
-                //
+                Filter::make('created_at')->form([
+                    Forms\Components\DatePicker::make('created_from')
+                        ->placeholder(fn ($state): string => now()->subMonth()->format('d/m/Y')),
+                    Forms\Components\DatePicker::make('created_until')
+                        ->placeholder(fn ($state): string => now()->format('d/m/Y')),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['created_from'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                        )
+                        ->when(
+                            $data['created_until'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                        );
+                }),
+                Filter::make('is_visible')->query(fn (Builder $query): Builder => $query->where('is_visible', false))->label('Not Visible')
+                    
             ]);
     }
 

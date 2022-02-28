@@ -10,8 +10,10 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\MultiSelectFilter;
 use App\Filament\Resources\TransactionResource\Pages;
-use App\Filament\Resources\TransactionResource\RelationManagers;
 
 class TransactionResource extends Resource
 {
@@ -84,8 +86,34 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('total')->searchable()->sortable(),
             ])
             ->filters([
-                //
-            ]);
+                Filter::make('date_transaction')->form([
+                        Forms\Components\DatePicker::make('created_from')
+                            ->placeholder(fn ($state): string => now()->subMonth()->format('d/m/Y')),
+                        Forms\Components\DatePicker::make('created_until')
+                            ->placeholder(fn ($state): string => now()->format('d/m/Y')),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date_transaction', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date_transaction', '<=', $date),
+                            );
+                    }),
+                    MultiSelectFilter::make('status')
+                        ->options([
+                            'nova' => 'Nova',
+                            'em processamento' => 'Em Processamento',
+                            'enviado' => 'Enviado',
+                            'entregue' => 'Entregue',
+                            'cancelada' => 'Cancelada',
+                        ])
+                        ->column('status')
+                ]);
+            
     }
 
     public static function getRelations(): array
